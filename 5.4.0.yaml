@@ -232,7 +232,7 @@ spec:
               readOnly: true
               - mountPath: /run/runtime.sock
                 name: runtime-sock
-            #   readOnly: true
+                readOnly: true
             # - mountPath: /host/proc
             #   name: proc-vol
             #   readOnly: true
@@ -251,6 +251,7 @@ spec:
         - name: runtime-sock
           hostPath:
             path: /run/containerd/containerd.sock
+            type: ""
         #     path: /run/dockershim.sock
         #     path: /run/k3s/containerd/containerd.sock
         #     path: /var/run/crio/crio.sock
