@@ -230,7 +230,7 @@ spec:
             - mountPath: /lib/modules
               name: modules-vol
               readOnly: true
-              - mountPath: /run/containerd/containerd.sock
+              - mountPath: /run/runtime.sock
                 name: runtime-sock
             #   readOnly: true
             # - mountPath: /host/proc
@@ -250,7 +250,6 @@ spec:
             path: /lib/modules
         - name: runtime-sock
           hostPath:
-        #     path: /var/run/docker.sock
             path: /run/containerd/containerd.sock
         #     path: /run/dockershim.sock
         #     path: /run/k3s/containerd/containerd.sock
