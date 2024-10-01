@@ -1,170 +1,355 @@
-
-clusterroles:
-  - name: neuvector-binding-app
-    verbs: 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: neuvector-binding-app
+rules:
+  - verbs:
       - get
       - list
       - watch
       - update
-    resources: 
+    resources:
       - nodes
       - pods
       - services
       - namespaces
 
-  - name: neuvector-binding-rbac
-    verbs: 
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: neuvector-binding-rbac
+rules:
+  - verbs:
       - get
       - list
       - watch
-    resources: 
+    resources:
       - rolebindings.rbac.authorization.k8s.io
       - roles.rbac.authorization.k8s.io
       - clusterrolebindings.rbac.authorization.k8s.io
       - clusterroles.rbac.authorization.k8s.io
 
-  - name: neuvector-binding-admission
-    verbs: 
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: neuvector-binding-app
+subjects:
+  - kind: ServiceAccount
+    name: controller
+    namespace: neuvector
+roleRef:
+  kind: ClusterRole
+  name: neuvector-binding-app
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: neuvector-binding-rbac
+subjects:
+  - kind: ServiceAccount
+    name: controller
+    namespace: neuvector
+roleRef:
+  kind: ClusterRole
+  name: neuvector-binding-rbac
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: neuvector-binding-admission
+rules:
+  - verbs:
       - get
       - list
       - watch
       - create
       - update
       - delete
-    resources: 
+    resources:
       - validatingwebhookconfigurations
       - mutatingwebhookconfigurations
 
-  - name: neuvector-binding-customresourcedefinition
-    verbs: 
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: neuvector-binding-admission
+subjects:
+  - kind: ServiceAccount
+    name: controller
+    namespace: neuvector
+roleRef:
+  kind: ClusterRole
+  name: neuvector-binding-admission
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: neuvector-binding-customresourcedefinition
+rules:
+  - verbs:
       - watch
       - create
       - get
       - update
-    resources: 
+    resources:
       - customresourcedefinitions
 
-  - name: neuvector-binding-nvsecurityrules
-    verbs: 
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: neuvector-binding-customresourcedefinition
+subjects:
+  - kind: ServiceAccount
+    name: controller
+    namespace: neuvector
+roleRef:
+  kind: ClusterRole
+  name: neuvector-binding-customresourcedefinition
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: neuvector-binding-nvsecurityrules
+rules:
+  - verbs:
       - get
       - list
       - delete
-    resources: 
+    resources:
       - nvsecurityrules
       - nvclustersecurityrules
 
-  - name: neuvector-binding-nvadmissioncontrolsecurityrules
-    verbs: 
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: neuvector-binding-nvadmissioncontrolsecurityrules
+rules:
+  - verbs:
       - get
       - list
       - delete
-    resources: 
+    resources:
       - nvadmissioncontrolsecurityrules
 
-  - name: neuvector-binding-nvdlpsecurityrules
-    verbs: 
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: neuvector-binding-nvdlpsecurityrules
+rules:
+  - verbs:
       - get
       - list
       - delete
-    resources: 
+    resources:
       - nvdlpsecurityrules
 
-  - name: neuvector-binding-nvwafsecurityrules
-    verbs: 
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: neuvector-binding-nvwafsecurityrules
+rules:
+  - verbs:
       - get
       - list
       - delete
-    resources: 
+    resources:
       - nvwafsecurityrules
 
-  - name: neuvector-binding-nvcomplianceprofiles
-    verbs: 
-      - get
-      - list
-      - delete
-    resources: 
-      - nvcomplianceprofiles
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: neuvector-binding-nvsecurityrules
+subjects:
+  - kind: ServiceAccount
+    name: controller
+    namespace: neuvector
+roleRef:
+  kind: ClusterRole
+  name: neuvector-binding-nvsecurityrules
+  apiGroup: rbac.authorization.k8s.io
 
-  - name: neuvector-binding-nvvulnerabilityprofiles
-    verbs: 
-      - get
-      - list
-      - delete
-    resources: 
-      - nvvulnerabilityprofiles
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: neuvector-binding-view
+subjects:
+  - kind: ServiceAccount
+    name: controller
+    namespace: neuvector
+roleRef:
+  kind: ClusterRole
+  name: view
+  apiGroup: rbac.authorization.k8s.io
 
-clusterrolebindings:
-  - name: neuvector-binding-app
-    clusterrole: neuvector-binding-app
-    serviceaccount: neuvector:controller
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: neuvector-binding-nvwafsecurityrules
+subjects:
+  - kind: ServiceAccount
+    name: controller
+    namespace: neuvector
+roleRef:
+  kind: ClusterRole
+  name: neuvector-binding-nvwafsecurityrules
+  apiGroup: rbac.authorization.k8s.io
 
-  - name: neuvector-binding-rbac
-    clusterrole: neuvector-binding-rbac
-    serviceaccount: neuvector:controller
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: neuvector-binding-nvadmissioncontrolsecurityrules
+subjects:
+  - kind: ServiceAccount
+    name: controller
+    namespace: neuvector
+roleRef:
+  kind: ClusterRole
+  name: neuvector-binding-nvadmissioncontrolsecurityrules
+  apiGroup: rbac.authorization.k8s.io
 
-  - name: neuvector-binding-admission
-    clusterrole: neuvector-binding-admission
-    serviceaccount: neuvector:controller
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: neuvector-binding-nvdlpsecurityrules
+subjects:
+  - kind: ServiceAccount
+    name: controller
+    namespace: neuvector
+roleRef:
+  kind: ClusterRole
+  name: neuvector-binding-nvdlpsecurityrules
+  apiGroup: rbac.authorization.k8s.io
 
-  - name: neuvector-binding-customresourcedefinition
-    clusterrole: neuvector-binding-customresourcedefinition
-    serviceaccount: neuvector:controller
-
-  - name: neuvector-binding-nvsecurityrules
-    clusterrole: neuvector-binding-nvsecurityrules
-    serviceaccount: neuvector:controller
-
-  - name: neuvector-binding-view
-    clusterrole: view
-    serviceaccount: neuvector:controller
-
-  - name: neuvector-binding-nvwafsecurityrules
-    clusterrole: neuvector-binding-nvwafsecurityrules
-    serviceaccount: neuvector:controller
-
-  - name: neuvector-binding-nvadmissioncontrolsecurityrules
-    clusterrole: neuvector-binding-nvadmissioncontrolsecurityrules
-    serviceaccount: neuvector:controller
-
-  - name: neuvector-binding-nvdlpsecurityrules
-    clusterrole: neuvector-binding-nvdlpsecurityrules
-    serviceaccount: neuvector:controller
-
-  - name: neuvector-binding-nvcomplianceprofiles
-    clusterrole: neuvector-binding-nvcomplianceprofiles
-    serviceaccount: neuvector:controller
-
-  - name: neuvector-binding-nvvulnerabilityprofiles
-    clusterrole: neuvector-binding-nvvulnerabilityprofiles
-    serviceaccount: neuvector:controller
-
-roles:
-  - name: neuvector-binding-scanner
-    verbs:
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: neuvector-binding-scanner
+  namespace: neuvector
+rules:
+  - verbs:
       - get
       - patch
       - update
       - watch
     resources:
       - deployments
-    namespace: neuvector
 
-  - name: neuvector-binding-secret
-    verbs:
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: neuvector-binding-scanner
+  namespace: neuvector
+subjects:
+  - kind: ServiceAccount
+    name: updater
+    namespace: neuvector
+  - kind: ServiceAccount
+    name: controller
+    namespace: neuvector
+roleRef:
+  kind: Role
+  name: neuvector-binding-scanner
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: neuvector-binding-secret
+  namespace: neuvector
+rules:
+  - verbs:
       - get
     resources:
       - secrets
-    namespace: neuvector
 
-rolebindings:
-  - name: neuvector-binding-scanner
-    role: neuvector-binding-scanner
-    serviceaccounts:
-      - neuvector:updater
-      - neuvector:controller
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: neuvector-binding-secret
+  namespace: neuvector
+subjects:
+  - kind: ServiceAccount
+    name: controller
     namespace: neuvector
+roleRef:
+  kind: Role
+  name: neuvector-binding-secret
+  apiGroup: rbac.authorization.k8s.io
 
-  - name: neuvector-binding-secret
-    role: neuvector-binding-secret
-    serviceaccount: neuvector:controller
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: neuvector-binding-nvcomplianceprofiles
+rules:
+  - verbs:
+      - get
+      - list
+      - delete
+    resources:
+      - nvcomplianceprofiles
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: neuvector-binding-nvcomplianceprofiles
+subjects:
+  - kind: ServiceAccount
+    name: controller
     namespace: neuvector
+roleRef:
+  kind: ClusterRole
+  name: neuvector-binding-nvcomplianceprofiles
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: neuvector-binding-nvvulnerabilityprofiles
+rules:
+  - verbs:
+      - get
+      - list
+      - delete
+    resources:
+      - nvvulnerabilityprofiles
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: neuvector-binding-nvvulnerabilityprofiles
+subjects:
+  - kind: ServiceAccount
+    name: controller
+    namespace: neuvector
+roleRef:
+  kind: ClusterRole
+  name: neuvector-binding-nvvulnerabilityprofiles
+  apiGroup: rbac.authorization.k8s.io
