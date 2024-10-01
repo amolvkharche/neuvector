@@ -1,0 +1,7 @@
+kubectl create namespace neuvector
+kubectl create sa controller -n neuvector
+kubectl create sa enforcer -n neuvector
+kubectl create sa basic -n neuvector
+kubectl create sa updater -n neuvector
+kubectl create sa scanner -n neuvector
+kubectl create sa registry-adapter -n neuvector
