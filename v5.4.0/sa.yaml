@@ -1,7 +1,41 @@
-kubectl create sa controller -n neuvector
-kubectl create sa enforcer -n neuvector
-kubectl create sa basic -n neuvector
-kubectl create sa updater -n neuvector
-kubectl create sa scanner -n neuvector
-kubectl create sa registry-adapter -n neuvector
-kubectl create sa cert-upgrader -n neuvector
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: controller
+  namespace: neuvector
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: enforcer
+  namespace: neuvector
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: basic
+  namespace: neuvector
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: updater
+  namespace: neuvector
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: scanner
+  namespace: neuvector
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: registry-adapter
+  namespace: neuvector
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cert-upgrader
+  namespace: neuvector
